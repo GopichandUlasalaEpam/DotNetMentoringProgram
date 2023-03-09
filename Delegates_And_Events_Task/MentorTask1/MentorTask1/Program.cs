@@ -10,12 +10,12 @@ namespace MentorTask1
 {
     internal class Program
     {
-        public delegate void DeleteItems(FileSystemInfo item);
+        public delegate void itemDelete(FileSystemInfo item);
         public class FileSystem
         {
             private string path;
             private DirectoryInfo dif;
-            public event DeleteItems EventHandlerDeleteitems;
+            public event itemDelete deleteItemsEventHandler;
             public FileSystem(string path) 
             {
                 this.path = path;
@@ -38,7 +38,7 @@ namespace MentorTask1
                         {
                             folders.Delete(true);
                             
-                            this.EventHandlerDeleteitems(folders);
+                            this.deleteItemsEventHandler(folders);
                         }
                        
                             else
@@ -67,7 +67,7 @@ namespace MentorTask1
                         {
                             files.Delete();
 
-                            this.EventHandlerDeleteitems(files);
+                            this.deleteItemsEventHandler(files);
                         }
                         else
                         {
@@ -85,12 +85,14 @@ namespace MentorTask1
         }
         static void Main(string[] args)
         {
+            //protecteditems list consists of names of files and folders that to be protected from the deletion
             List<string>protecteditems = new List<string>();
             //protecteditems.Add("Gopi.txt");
             //protecteditems.Add("Keypairs");
             //protecteditems.Add("OurGac.exe");
             FileSystem filesystem = new FileSystem(@"C:\Users\Gopichand_Ulasala\.NetPractice\Dummy");
-            filesystem.EventHandlerDeleteitems += new DeleteItems(Notify);
+            filesystem.deleteItemsEventHandler += new itemDelete(Notify);
+            //if value is set to true,it aborts the process
             filesystem.Deletefiles(false,protecteditems);
             filesystem.DeleteFolders(false,protecteditems);
            
