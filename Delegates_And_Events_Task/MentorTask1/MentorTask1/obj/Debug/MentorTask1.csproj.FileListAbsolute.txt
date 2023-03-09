@@ -1,8 +1,0 @@
-C:\Users\Gopichand_Ulasala\source\repos\MentorTask1\MentorTask1\bin\Debug\MentorTask1.exe.config
-C:\Users\Gopichand_Ulasala\source\repos\MentorTask1\MentorTask1\bin\Debug\MentorTask1.exe
-C:\Users\Gopichand_Ulasala\source\repos\MentorTask1\MentorTask1\bin\Debug\MentorTask1.pdb
-C:\Users\Gopichand_Ulasala\source\repos\MentorTask1\MentorTask1\obj\Debug\MentorTask1.csproj.AssemblyReference.cache
-C:\Users\Gopichand_Ulasala\source\repos\MentorTask1\MentorTask1\obj\Debug\MentorTask1.csproj.SuggestedBindingRedirects.cache
-C:\Users\Gopichand_Ulasala\source\repos\MentorTask1\MentorTask1\obj\Debug\MentorTask1.csproj.CoreCompileInputs.cache
-C:\Users\Gopichand_Ulasala\source\repos\MentorTask1\MentorTask1\obj\Debug\MentorTask1.exe
-C:\Users\Gopichand_Ulasala\source\repos\MentorTask1\MentorTask1\obj\Debug\MentorTask1.pdb
