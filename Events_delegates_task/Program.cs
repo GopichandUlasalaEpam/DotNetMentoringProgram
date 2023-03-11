@@ -1,51 +1,135 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-
-namespace Task1M
+namespace Task1D
 {
     internal class Program
     {
         static void Main(string[] args)
         {
+            int fileCount = 0;
+            int folderCount = 0;
+            string location = "C:\\Users\\Gopichand_Ulasala\\.NetPractice\\Dummy";
+            List<string> files = new List<string>();
+            files.Add(location+"p2.exe");
+            List<string> dirs = new List<string>();
+            dirs.Add(location+"Keypairs");
+
             string path = "C:\\Users\\Gopichand_Ulasala\\.NetPractice\\Dummy";
-            FileSystemVisitor fileSystemVisitor = new FileSystemVisitor(path, bool_FilterFileType);
-            fileSystemVisitor.event_handler_Onstartsearch += (sender, e) => Console.WriteLine("Search Algorithm started");
-            fileSystemVisitor.event_handler_Onendsearch += (sender, e) => Console.WriteLine("Algorithm is stoped");
-            fileSystemVisitor.event_handler_with_arguments_FileFound += (sender, e) =>
+            FileSystemVisitor fileSystemVisitor = new FileSystemVisitor(path);
+
+            fileSystemVisitor.TraversalStarted += (sender, e) =>
             {
-                Console.WriteLine("File found: " + e.str_Path);
-                //excludes the .txt files
-                if (e.str_Path.EndsWith(".txt"))
+                Console.WriteLine("----------------");
+                Console.WriteLine("Traversal Algorithm started");
+            };
+            fileSystemVisitor.TraversalEnded += (sender, e) =>
+            {
+                Console.WriteLine("----------------");
+                Console.WriteLine("Traversal Algorithm Ended");
+            };
+            fileSystemVisitor.DirectoryFound += (sender, e) =>
+            {
+                Console.WriteLine("Directory found at path {0}", e.Path);
+            };
+            fileSystemVisitor.FileFound += (sender, e) =>
+            {
+                if (files.Contains(e.Path))
                 {
-                    e.bool_Exclude = true;
+                    Console.WriteLine("Path found");
+                    e.Exclude = true;
                 }
-               
+
+                Console.WriteLine("File found at path {0}", e.Path);
             };
-            fileSystemVisitor.event_handler_with_arguments_DirectoryFound += (sender, e) =>
+
+            foreach(var itempath in fileSystemVisitor.TraverseItems())
             {
-                Console.WriteLine("Directory found: " + e.str_Path);
-                
+               Console.WriteLine("Searched item");
+            }
+
+            FileSystemVisitor fileSystemVisitor1 = new FileSystemVisitor(path, DeletionAlgorithm);
+            
+            fileSystemVisitor1.DeletionStarted += (sender, e) =>
+            {
+                Console.WriteLine("----------------");
+                Console.WriteLine("Deletion Algortihm started");
 
             };
-            foreach (var itemPath in fileSystemVisitor.TraverseItems())
+            fileSystemVisitor1.FileFound += (sender, e) =>
             {
-               
-                
-                Console.WriteLine("Deleted Item path: " + itemPath);
-                File.Delete(itemPath);
+                if (files.Contains(e.Path))
+                {
+                    e.Exclude = true;
+                }
 
+                if (e.Path.EndsWith(".txt"))
+                {
+                    e.Exclude= true;
+                }
+
+            };
+            fileSystemVisitor1.DirectoryFound += (sender, e) =>
+            {
+                if (dirs.Contains(e.Path))
+                {
+                    e.Exclude = true;
+                }
+            };
+            fileSystemVisitor1.DeletionEnded += (sender, e) =>
+            {
+                Console.WriteLine("----------------");
+                Console.WriteLine("Deletion Algorithm ended");
+            };
+            fileSystemVisitor1.DeletedFile += (sender, e) =>
+            {
+                if (files.Contains(e.Path))
+                {
+                    e.Exclude = true;
+                }
+
+                if (e.Path.EndsWith(".txt"))
+                {
+                    e.Exclude = true;
+                }
+                else if (fileCount > 3)
+                {
+                    e.Abort = true;
+                    Console.WriteLine("Process is terminated");
+                }
+                else
+                {
+                    fileCount++;
+                    Console.WriteLine("File at the path {0} is deleted", e.Path);
+                }
+                
+            };
+            fileSystemVisitor1.DeletedFolder += (sender, e) =>
+            {
+                if (dirs.Contains(e.Path))
+                {
+                    e.Exclude = true;
+                }
+                else if (folderCount > 3)
+                {
+                    e.Abort = true;
+                    Console.WriteLine("Process is terminated");
+                }
+                else
+                {
+                    folderCount++;
+                    Console.WriteLine("Folder at the path {0} is deleted", e.Path);
+                }
+            };
+            
+            foreach (var itempath in fileSystemVisitor1.DeleteItems())
+            {
+                Console.WriteLine("----------------");
             }
         }
-
-        private static bool bool_FilterFileType(string path)
+        private static bool DeletionAlgorithm(string path, FileSystemVisitor fileSystemVisitor)
         {
             return true;
         }
-       
     }
 }
