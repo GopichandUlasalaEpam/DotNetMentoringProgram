@@ -34,7 +34,6 @@ namespace Task_delegates_events
 
             foreach (var path in TraverseDirectory(mainPath))
             {
-
                 yield return path;
             }
 
@@ -174,8 +173,6 @@ namespace Task_delegates_events
         protected virtual void OnStartDeleted(FileSearchEventArgs e)
         {
             DeletionStarted?.Invoke(this, e);
-
-
         }
 
     }
