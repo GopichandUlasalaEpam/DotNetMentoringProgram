@@ -34,7 +34,6 @@ namespace Task_delegates_events
 
             foreach (var path in TraverseDirectory(mainPath))
             {
-
                 yield return path;
             }
 
