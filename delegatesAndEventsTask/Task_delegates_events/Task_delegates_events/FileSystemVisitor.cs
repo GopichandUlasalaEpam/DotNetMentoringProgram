@@ -174,8 +174,6 @@ namespace Task_delegates_events
         protected virtual void OnStartDeleted(FileSearchEventArgs e)
         {
             DeletionStarted?.Invoke(this, e);
-
-
         }
 
     }

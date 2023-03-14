@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="NotifyEventHandlers.cs" />
     <Compile Include="FileSystemVisitor.cs" />
     <Compile Include="FileSearchEventArgs.cs" />
     <Compile Include="Program.cs" />
