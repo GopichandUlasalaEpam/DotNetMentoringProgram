@@ -22,13 +22,16 @@ namespace MentorMultiThreading
             string input = Console.ReadLine();
             numberArray = Array.ConvertAll(input.Split(' '), int.Parse);
             int midPoint = numberArray.Length / 2;
+            Console.WriteLine("Main method thread pause executing");
             //First Thread
-            ThreadPool.QueueUserWorkItem(new WaitCallback(SumOperation), new LimitValues(0, midPoint));
+            ThreadPool.QueueUserWorkItem(SumOperation, new LimitValues(0, midPoint));
+            
             //SecondThread
-            ThreadPool.QueueUserWorkItem(new WaitCallback(SumOperation), new LimitValues(midPoint, size));
+            ThreadPool.QueueUserWorkItem(SumOperation, new LimitValues(midPoint, size));
             //making the main thread to wait
             resetEvent.WaitOne();
-            Console.WriteLine("Main method thread");
+
+            Console.WriteLine("Main method thread starts executing");
             int overrallEvenSum = firstSum;
             Console.WriteLine($"From main thread the sum of even numbers of array is :{overrallEvenSum}");
 
@@ -38,9 +41,19 @@ namespace MentorMultiThreading
         }
         static void SumOperation(object values)
         {
-            LimitValues limitValues = (LimitValues) values;
-            int start = limitValues.start;
-            int end = limitValues.end;
+            int start=0, end=0;
+
+            try
+            {
+                LimitValues limitValues = (LimitValues)values;
+                start = limitValues.start;
+                end = limitValues.end;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Format exception occured kindly check the parameters passed");
+            }
+            
             resetEvent.Reset();
             for (int i = start; i < end; i++)
             {
@@ -49,10 +62,16 @@ namespace MentorMultiThreading
                     Interlocked.Add(ref firstSum, numberArray[i]);
                 }
             }
-            if (start != 0)
+            if (start == 0)
             {
-                resetEvent.Set();
+                Console.WriteLine("Thread1 Completed sending signal to thread2 ");
             }
+            else
+            {
+                Console.WriteLine("Thread2 Completed sending signal to main thread");
+            }
+            resetEvent.Set();
+            
 
 
         }
