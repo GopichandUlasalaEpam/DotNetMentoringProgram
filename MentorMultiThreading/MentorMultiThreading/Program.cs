@@ -11,7 +11,7 @@ namespace MentorMultiThreading
     internal class Program
     {
         static int[] numberArray;
-        static int firstSum=0;
+        static int sum=0;
         static ManualResetEvent resetEvent=new ManualResetEvent(false);
         
         static void Main(string[] args)
@@ -29,7 +29,7 @@ namespace MentorMultiThreading
             //making the main thread to wait
             resetEvent.WaitOne();
             Console.WriteLine("Main method thread");
-            int overrallEvenSum = firstSum;
+            int overrallEvenSum = sum;
             Console.WriteLine($"From main thread the sum of even numbers of array is :{overrallEvenSum}");
 
 
@@ -46,7 +46,7 @@ namespace MentorMultiThreading
             {
                 if (numberArray[i] % 2 == 0)
                 {
-                    Interlocked.Add(ref firstSum, numberArray[i]);
+                    Interlocked.Add(ref sum, numberArray[i]);
                 }
             }
             if (start != 0)
