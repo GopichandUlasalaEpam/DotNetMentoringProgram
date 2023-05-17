@@ -34,10 +34,7 @@ namespace MentorMultiThreading
             Console.WriteLine("Main method thread starts executing");
             int overrallEvenSum = firstSum;
             Console.WriteLine($"From main thread the sum of even numbers of array is :{overrallEvenSum}");
-
-
-
-
+            
         }
         static void SumOperation(object values)
         {
